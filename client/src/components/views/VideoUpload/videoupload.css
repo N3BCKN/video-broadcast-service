@@ -1,0 +1,28 @@
+.upload-main{
+	max-width: 750px;
+	margin: 2rem auto;
+}
+
+.upload-header{
+	text-align: center;
+	margin-bottom: 2rem;
+}
+
+.upload-dropzone{
+	display: flex;
+	justify-content: space-between;
+}
+.upload-dropzone-frame{
+	width: 420px;
+	height: 350px;
+	border: 1px solid lightgrey;
+	display: flex;
+	align-items: center; 
+	justify-content: center;
+}
+.upload-form{
+	padding: 10px 0 10px 0;
+}
+.upload-form label{
+	font-size: 150%;
+}
