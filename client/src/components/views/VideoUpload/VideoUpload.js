@@ -33,7 +33,6 @@ const VideoUpload = () =>{
 
     const handleSubmit = (event) => {
 		event.preventDefault()
-		console.log('working')
 	}
 
 	const handleTitle = (event) =>{
@@ -45,7 +44,6 @@ const VideoUpload = () =>{
 	}
 
 	const handleRange = (value) =>{
-		console.log(value);
 		setPrivacy(value)
 	}
 
