@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {Form, Typography, Button, message, Input, Icon, Select} from 'antd'
 import Dropzone from 'react-dropzone'
+import axios from 'axios'
 
 import './videoupload.css'
 
@@ -27,9 +28,12 @@ const VideoUpload = () =>{
 
 	// useState() Hooks
     const [title, setTitle] = useState("")
-    const [Description, setDescription] = useState("")
+    const [description, setDescription] = useState("")
     const [privacy, setPrivacy] = useState(0)
-    const [Categories, setCategories] = useState("Music")
+    const [filePath, setFilePath] = useState("")
+    const [duration, setDuration] = useState("")
+    const [thumbnail, setThumbnail] = useState("")
+    const [categories, setCategories] = useState("Music")
 
     const handleSubmit = (event) => {
 		event.preventDefault()
@@ -51,8 +55,46 @@ const VideoUpload = () =>{
 		setCategories(value)
 	}
 
-	const handleDrop = (event) =>{
-		console.log('droped')
+	const handleDrop = ( files ) =>{
+        let formData = new FormData();
+        let config = {
+            header: { 'content-type': 'multipart/form-data' }
+        }
+        formData.append("file", files[0])
+
+        axios.post('/api/video/fileupload', formData, config)
+		.then(resp => {
+			if(resp.data.success){
+				
+				// generate thumbnail
+				let videoDetails = {
+					filePath: resp.data.filePath,
+                    fileName: resp.data.fileName
+				}
+
+				setFilePath(videoDetails.filePath)
+
+				axios.post('/api/video/thumbnail', variable)
+                .then(response => {
+                    if (response.data.success) {
+                        setDuration(response.data.fileDuration)
+                        setThumbnail(response.data.thumbsFilePath)
+                        console.log("working!!!");
+                    } else {
+                        console.log('Failed to make the thumbnails');
+                    }
+                })
+
+			}
+			else{
+				// TODO: handle errors
+				console.log('error')
+			}
+		})
+		.catch(err => {
+			// TODO: handle errors
+			console.log(err);
+		})
 	}
  
 	return(
@@ -87,7 +129,7 @@ const VideoUpload = () =>{
 						<label>Description</label>
 	                    <TextArea
 	                    onChange={handleDescription}
-	                    value={Description}
+	                    value={description}
 	                    />
                     </div>
 
