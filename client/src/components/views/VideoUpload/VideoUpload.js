@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {Form, Typography, Button, message, Input, Icon, Select} from 'antd'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
+import { useSelector } from "react-redux";
 
 import './videoupload.css'
 
@@ -24,8 +25,9 @@ const Private = [
 ]
 
 
-const VideoUpload = () =>{
+const VideoUpload = (props) =>{
 
+	const user = useSelector(state => state.user);
 	// useState() Hooks
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
@@ -37,6 +39,37 @@ const VideoUpload = () =>{
 
     const handleSubmit = (event) => {
 		event.preventDefault()
+
+		if (user.userData && !user.userData.isAuth) {
+            return alert('Please Log in First')
+        }
+
+        if (title === "" || description === "" ||
+            categories === "" || filePath === "" ||
+            duration === "" || thumbnail === "") {
+            return alert('Please first fill all the fields')
+        }
+
+		let videoData = {
+			title: title,
+			description: description,
+			duration: duration,
+			category: categories,
+			privacy: privacy,
+			filePath: filePath,
+			thumbnail: thumbnail,
+			user: user.userData._id
+		}
+
+		axios.post('/api/video/submit', videoData)
+		.then(response => {
+			if(response.data.success){
+				alert('Video Uploaded!')
+                props.history.push('/')
+			}else{
+				console.log("fail")
+			}
+		})
 	}
 
 	const handleTitle = (event) =>{
@@ -74,12 +107,11 @@ const VideoUpload = () =>{
 
 				setFilePath(videoDetails.filePath)
 
-				axios.post('/api/video/thumbnail', variable)
+				axios.post('/api/video/thumbnail', videoDetails)
                 .then(response => {
                     if (response.data.success) {
                         setDuration(response.data.fileDuration)
                         setThumbnail(response.data.thumbsFilePath)
-                        console.log("working!!!");
                     } else {
                         console.log('Failed to make the thumbnails');
                     }
