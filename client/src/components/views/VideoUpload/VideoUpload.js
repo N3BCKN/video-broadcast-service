@@ -138,17 +138,19 @@ const VideoUpload = (props) =>{
 			</div>
 				<Form>
 					<div className="upload-dropzone">
-                    <Dropzone
-              			onDrop={handleDrop}
-                        multiple={false}
-                        maxSize={800000000}>
-                        {({ getRootProps, getInputProps }) => (
-                            <div className="upload-dropzone-frame" {...getRootProps()}>
-                                <input {...getInputProps()} />
-                                <Icon type="plus" style={{ fontSize: '3rem' }} />
-                            </div>
-                        )}
-                    </Dropzone>
+					{ thumbnail ? <img src={`http://localhost:5000/${thumbnail}`} className="upload-dropzone-frame"/> :  
+						<Dropzone
+	              			onDrop={handleDrop}
+	                        multiple={false}
+	                        maxSize={800000000}>
+	                        {({ getRootProps, getInputProps }) => (
+	                            <div className="upload-dropzone-frame" {...getRootProps()}>
+	                                <input {...getInputProps()} />
+	                                <Icon type="plus" style={{ fontSize: '3rem' }} />
+	                            </div>
+	                        )}
+                    	</Dropzone>
+					}
 					</div>
 
 					<div className="upload-form">
