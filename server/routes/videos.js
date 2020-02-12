@@ -2,6 +2,9 @@ const express = require('express')
 const router = express.Router()
 const multer = require('multer')
 const ffmpeg = require('fluent-ffmpeg')
+const { Video } = require("../models/Video")
+
+const { auth } = require("../middleware/auth");
 
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -33,8 +36,8 @@ router.post("/fileupload", (req, res) => {
 
 router.post("/thumbnail", (req, res) => {
 
-    let thumbsFilePath ="";
-    let fileDuration ="";
+    let thumbsFilePath =""
+    let fileDuration =""
 
     ffmpeg.ffprobe(req.body.filePath, function(err, metadata){
     	if(err){console.log(err)}
@@ -63,9 +66,16 @@ router.post("/thumbnail", (req, res) => {
 
 });
 
-router.post("/submit",(req,res) =>{
-    console.log(req.body)
-    res.json({success:true})
+router.post("/uploadVideo",(req,res) =>{
+    
+    const video = new Video(req.body)
+    
+    video.save((err, video) => {
+        if(err) return res.status(400).json({ success: false, err })
+        return res.status(200).json({
+            success: true 
+        })
+    })
 })
 
 

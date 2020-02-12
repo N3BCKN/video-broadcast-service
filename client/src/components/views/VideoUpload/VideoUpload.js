@@ -58,18 +58,20 @@ const VideoUpload = (props) =>{
 			privacy: privacy,
 			filePath: filePath,
 			thumbnail: thumbnail,
-			user: user.userData._id
+			writer: user.userData._id
 		}
 
-		axios.post('/api/video/submit', videoData)
-		.then(response => {
-			if(response.data.success){
-				alert('Video Uploaded!')
-                props.history.push('/')
-			}else{
-				console.log("fail")
-			}
-		})
+		console.log(videoData)
+
+        axios.post('/api/video/uploadVideo', videoData)
+            .then(response => {
+                if (response.data.success) {
+                    alert('video Uploaded Successfully')
+                    props.history.push('/')
+                } else {
+                    alert('Failed to upload video')
+                }
+            })
 	}
 
 	const handleTitle = (event) =>{
@@ -170,7 +172,7 @@ const VideoUpload = (props) =>{
                     	<br/>
                     	<Select onChange={handleRange}>
 		                    {Private.map((range, index) => (
-		                        <Option key={index} value={range.label}>{range.label}</Option>
+		                        <Option key={index} value={range.value}>{range.label}</Option>
 		                    ))}
                     	</Select>
                     </div>
