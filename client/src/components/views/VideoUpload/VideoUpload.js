@@ -2,7 +2,9 @@ import React, {useState} from 'react'
 import {Form, Typography, Button, message, Input, Icon, Select} from 'antd'
 import Dropzone from 'react-dropzone'
 import axios from 'axios'
-import { useSelector } from "react-redux";
+import { useSelector } from "react-redux"
+import { GridLoader } from "react-spinners"
+// import { css } from "@emotion/core";
 
 import './videoupload.css'
 
@@ -36,6 +38,7 @@ const VideoUpload = (props) =>{
     const [duration, setDuration] = useState("")
     const [thumbnail, setThumbnail] = useState("")
     const [categories, setCategories] = useState("Music")
+    const [loadingScreen, setloadingScreen] = useState(false)
 
     const handleSubmit = (event) => {
 		event.preventDefault()
@@ -91,6 +94,9 @@ const VideoUpload = (props) =>{
 	}
 
 	const handleDrop = ( files ) =>{
+		//launch animation
+		setloadingScreen(true)
+
         let formData = new FormData();
         let config = {
             header: { 'content-type': 'multipart/form-data' }
@@ -112,6 +118,8 @@ const VideoUpload = (props) =>{
 				axios.post('/api/video/thumbnail', videoDetails)
                 .then(response => {
                     if (response.data.success) {
+                    	//stop animation
+						setloadingScreen(false)
                         setDuration(response.data.fileDuration)
                         setThumbnail(response.data.thumbsFilePath)
                     } else {
@@ -146,7 +154,14 @@ const VideoUpload = (props) =>{
 	                        {({ getRootProps, getInputProps }) => (
 	                            <div className="upload-dropzone-frame" {...getRootProps()}>
 	                                <input {...getInputProps()} />
-	                                <Icon type="plus" style={{ fontSize: '3rem' }} />
+	                                {loadingScreen ? 
+	                               	<GridLoader
+								          size={30}
+								          color={"#36D7B7"}
+								          loading={loadingScreen}
+								    /> : <Icon type="plus" style={{ fontSize: '3rem' }} />
+									}
+
 	                            </div>
 	                        )}
                     	</Dropzone>
