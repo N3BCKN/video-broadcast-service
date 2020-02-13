@@ -1,13 +1,14 @@
-import React, { Suspense } from 'react';
-import { Route, Switch } from "react-router-dom";
-import Auth from "../hoc/auth";
+import React, { Suspense } from 'react'
+import { Route, Switch } from "react-router-dom"
+import Auth from "../hoc/auth"
 // pages for this product
-import LandingPage from "./views/LandingPage/LandingPage.js";
-import LoginPage from "./views/LoginPage/LoginPage.js";
-import RegisterPage from "./views/RegisterPage/RegisterPage.js";
-import NavBar from "./views/NavBar/NavBar";
-import Footer from "./views/Footer/Footer";
-import VideoUpload from './views/VideoUpload/VideoUpload';
+import LandingPage from "./views/LandingPage/LandingPage.js"
+import LoginPage from "./views/LoginPage/LoginPage.js"
+import RegisterPage from "./views/RegisterPage/RegisterPage.js"
+import NavBar from "./views/NavBar/NavBar"
+import Footer from "./views/Footer/Footer"
+import VideoUpload from './views/VideoUpload/VideoUpload'
+import DetailVideoPlayer from './views/DetailVideoPlayer/DetailVideoPlayer'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route exact path="/login" component={Auth(LoginPage, false)} />
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/video/upload" component={Auth(VideoUpload, true)} />
+          <Route exact path="/video/:videoId" component={Auth(DetailVideoPlayer, true)} />
         </Switch>
       </div>
       <Footer />

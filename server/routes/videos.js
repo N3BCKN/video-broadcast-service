@@ -80,11 +80,21 @@ router.post("/uploadVideo",(req,res) =>{
 
 router.get("/getVideos", (req, res) => {
     Video.find()
-        .populate('writer')
+        .populate('writer', 'name image')
         .exec((err, videos) => {
             if(err) return res.status(400).send(err);
             res.status(200).json({ success: true, videos })
         })
+});
+
+router.post("/getVideo", (req, res) => {
+
+    Video.findOne({ "_id" : req.body.videoId })
+    .populate('writer')
+    .exec((err, video) => {
+        if(err) return res.status(400).send(err);
+        res.status(200).json({ success: true, video })
+    })
 });
 
 

@@ -13,6 +13,7 @@ function VideoCard(props){
     const seconds = Math.floor(duration - minutes * 60);
 
 	return(
+		<a href="/video/{_id}" >
         <Col lg={5} md={6} xs={24} className="video-card">
             <div style={{ position: 'relative' }}>
                 <a href={`/video/${_id}`} >
@@ -32,6 +33,7 @@ function VideoCard(props){
             <span style={{ marginLeft: '3rem' }}> {views} views</span>
             <span> {moment(createdAt).format("MMM Do YY")} </span>
         </Col>
+        </a>
 	)
 }
 
