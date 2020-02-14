@@ -6,7 +6,8 @@ function Subscription(props){
 
 	const {userFrom,userTo} = props
 
-	const [Subscibers, setSubsribers] = useState(0)
+	const [Subscibers, setSubscibers] = useState(0)
+    const [Subscribed, setSubscribed] = useState(false)
 
 	const onSubscribe = ( ) => {
 
@@ -20,7 +21,7 @@ function Subscription(props){
             axios.post('/api/subscribe/unSubscribe', subscribeVariables)
                 .then(response => {
                     if(response.data.success){ 
-                        setSubscribeNumber(SubscribeNumber - 1)
+                        setSubscibers(Subscibers - 1)
                         setSubscribed(!Subscribed)
                     } else {
                         alert('Failed to unsubscribe')
@@ -33,7 +34,7 @@ function Subscription(props){
             axios.post('/api/subscribe/subscribe', subscribeVariables)
                 .then(response => {
                     if(response.data.success) {
-                        setSubscribeNumber(SubscribeNumber + 1)
+                        setSubscibers(Subscibers + 1)
                         setSubscribed(!Subscribed)
                     } else {
                         alert('Failed to subscribe')
@@ -45,17 +46,17 @@ function Subscription(props){
 
     useEffect(() => {
 
-        const subscribeNumberVariables = { userTo: userTo, userFrom: userFrom }
-        axios.post('/api/subscribe/subscribeNumber', subscribeNumberVariables)
+        const SubscibersVariables = { userTo: userTo, userFrom: userFrom }
+        axios.post('/api/subscribe/subscribeNumber', SubscibersVariables)
             .then(response => {
                 if (response.data.success) {
-                    setSubsribers(response.data.subscribeNumber)
+                    setSubscibers(response.data.Subscibers)
                 } else {
                     alert('Failed to get subscriber Number')
                 }
             })
 
-        axios.post('/api/subscribe/subscribed', subscribeNumberVariables)
+        axios.post('/api/subscribe/subscribed', SubscibersVariables)
             .then(response => {
                 if (response.data.success) {
                     setSubscribed(response.data.subcribed)

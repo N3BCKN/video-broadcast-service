@@ -23,8 +23,7 @@ function DetailVideoPlayer(props){
                 alert('Failed to get video Info')
             }
         })
-    })
-
+    },[])
 	return(
 		<Row>
 			<Col lg={16} xs={24}>

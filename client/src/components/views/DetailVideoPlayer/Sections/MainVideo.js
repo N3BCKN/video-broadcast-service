@@ -2,6 +2,7 @@ import React from 'react'
 import Subscription from './Subscription'
 import {List, Avatar} from 'antd'
 import moment from 'moment'
+import Comments from '../../Comments/Comments'
 
 function MainVideo(props){
 	const {title, filePath, description, writer, views,createdAt} = props.video
@@ -20,6 +21,7 @@ function MainVideo(props){
                 <div></div>
             </List.Item>
             <p>{description}</p>
+            <Comments />
         </div>
 	)
 }
