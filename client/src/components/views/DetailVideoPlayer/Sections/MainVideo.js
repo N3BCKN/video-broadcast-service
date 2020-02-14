@@ -1,14 +1,16 @@
 import React from 'react'
+import Subscription from './Subscription'
 import {List, Avatar} from 'antd'
 import moment from 'moment'
 
 function MainVideo(props){
 	const {title, filePath, description, writer, views,createdAt} = props.video
 	return(
+
 		<div className="postPage" style={{ width: '100%', padding: '3rem 4em' }}>
             <video style={{ width: '100%' }} src={`http://localhost:5000/${filePath}`} controls></video>
             <List.Item
-                actions={[]}
+                actions={[<Subscription toUser={writer} fromUser={localStorage['userId']}  />]}
             >
                 <List.Item.Meta
                     avatar={<Avatar src={writer && writer.image} />}

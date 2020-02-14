@@ -1,4 +1,5 @@
 import React from 'react'
+import '../DetailVideoPlayer.css'
 
 function SlideVideo(props){
 
@@ -8,8 +9,8 @@ function SlideVideo(props){
     let seconds = Math.floor(duration - minutes * 60)
 
 	return(
-		<div style={{ display: 'flex', marginTop: '1rem', padding: '0 2rem' }}>
-            <div style={{ width:'80%', marginRight:'1rem' }}>
+		<div className="video-slide-card">
+            <div className="video-slide-img">
                 <a href={`/video/${_id}`}  style={{ color:'gray' }}>
                     <img style={{ width: '100%' }} src={`http://localhost:5000/${thumbnail}`} alt="thumbnail" />
                 </a>
@@ -17,7 +18,7 @@ function SlideVideo(props){
 
             <div style={{ width:'90%' }}>
                 <a href={`/video/${_id}`} style={{ color:'gray' }}>
-                    <span style={{ fontSize: '1rem', color: 'black' }}>{title}  </span><br />
+                    <span className="video-slide-title">{title}  </span><br />
                     <span>{writer.name}</span><br />
                     <span>{views} views</span><br />
                     <span>{minutes} : {seconds}</span><br />

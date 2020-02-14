@@ -34,8 +34,9 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 
-app.use('/api/users', require('./routes/users'));
-app.use('/api/video', require('./routes/videos'));
+app.use('/api/users', require('./routes/users'))
+app.use('/api/video', require('./routes/videos'))
+app.use('/api/subscription', require('./routes/subscription'));
 
 
 //use this to show the image you have in node js server to client (react js)

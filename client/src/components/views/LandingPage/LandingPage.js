@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { FaCode } from "react-icons/fa"
+// import { FaCode } from "react-icons/fa"
 import "./LandingPage.css"
-import {Col, Typography, Row} from 'antd'
+import {Typography} from 'antd'
 import axios from 'axios'
 import VideoCard from '../Shared/VideoCard'
 

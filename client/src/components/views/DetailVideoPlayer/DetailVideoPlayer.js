@@ -18,7 +18,6 @@ function DetailVideoPlayer(props){
         axios.post('/api/video/getVideo', videoRequest)
         .then(response => {
             if(response.data.success) {
-                console.log(response.data.video)
                 setVideo(response.data.video)
             } else {
                 alert('Failed to get video Info')
