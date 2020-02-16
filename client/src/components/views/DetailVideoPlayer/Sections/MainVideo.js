@@ -1,11 +1,31 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Subscription from './Subscription'
 import {List, Avatar} from 'antd'
 import moment from 'moment'
-import Comments from '../../Comments/Comments'
+import Comments from './Comments'
 
 function MainVideo(props){
-	const {title, filePath, description, writer, views,createdAt} = props.video
+	const {_id, title, filePath, description, writer, views,createdAt} = props.video
+
+    const [CommentLists, setCommentLists] = useState([])
+
+    useEffect(()=>{
+    axios.post('/api/comment/getComments', videoVariable)
+    .then(response => {
+        if (response.data.success) {
+            console.log('response.data.comments',response.data.comments)
+            setCommentLists(response.data.comments)
+        } else {
+            alert('Failed to get video Info')
+        }
+    })
+
+    },[])
+
+    const updateComments = (comment) =>{
+        setCommentLists(CommentLists.concat(comment))
+    }
+
 	return(
 
 		<div className="postPage" style={{ width: '100%', padding: '3rem 4em' }}>
@@ -21,7 +41,7 @@ function MainVideo(props){
                 <div></div>
             </List.Item>
             <p>{description}</p>
-            <Comments />
+            <Comments CommentLists={CommentLists} refreshFunction={updateComments}  postId={_id}/>
         </div>
 	)
 }
