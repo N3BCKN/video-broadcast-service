@@ -2,15 +2,22 @@ import React, {useEffect, useState} from 'react'
 import Subscription from './Subscription'
 import {List, Avatar} from 'antd'
 import moment from 'moment'
+import axios from 'axios'
 import Comments from './Comments'
 
 function MainVideo(props){
 	const {_id, title, filePath, description, writer, views,createdAt} = props.video
+    // const videoId = props.match.params.videoId
 
     const [CommentLists, setCommentLists] = useState([])
 
     useEffect(()=>{
-    axios.post('/api/comment/getComments', videoVariable)
+
+    const videoData = {
+        videoId: _id
+    }
+
+    axios.post('/api/comment/getComments', videoData)
     .then(response => {
         if (response.data.success) {
             console.log('response.data.comments',response.data.comments)

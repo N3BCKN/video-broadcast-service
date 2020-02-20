@@ -1,49 +1,49 @@
-import React,{useState} from 'react'
-import {Button, Input} from 'antd'
+import React, { useState } from 'react'
+import { Button, Input } from 'antd'
+import axios from 'axios'
 import { useSelector } from 'react-redux'
+import SingleComment from './SingleComment'
 
-const {TextArea} = Input
+const { TextArea } = Input;
 
-function Comments(props){
-	const user = useSelector(state => state.user)
-	const [Comment, setComment] = useState('')
+function Comments(props) {
+    const user = useSelector(state => state.user)
+    const [Comment, setComment] = useState("")
 
-	const handleChange = (e) =>{
-		setComment(e.currentTarget.value)
-	}
+    const handleChange = (e) => {
+        setComment(e.currentTarget.value)
+    }
 
-	const handleSubmit = (e) =>{
-		e.preventDefault()
+    const onSubmit = (e) => {
+        e.preventDefault()
 
-		const commentData = {
-			content: Comment,
-			writer: user.userData.id,
-			post: postId
-		}
+        const variables = {
+            content: Comment,
+            writer: user.userData._id,
+            postId: props.postId
+        }
 
-		axios.post('/api/comment/saveComment', commentData)
-		.then(response => {
-			if(response.data.success){
-				props.updateComments(response.data.comment)
-			}else{
-				alert("comment couldn't be send")
-			}
-		})
-	}
+        axios.post('/api/comment/saveComment', variables)
+            .then(response => {
+                if (response.data.success) {
+                    setComment("")
+                    props.refreshFunction(response.data.result)
+                } else {
+                    alert('Failed to save Comment')
+                }
+            })
+    }
 
-	return(
-		<div>
-			<br />
-			<p> Replies </p>
-			<hr />
-
-
+    return (
+        <div>
+            <br />
+            <p> Replies</p>
+            <hr />
             {props.CommentLists && props.CommentLists.map((comment, index) => (
                 (!comment.responseTo &&
-                <React.Fragment>
-                  <SingleComment comment={comment} postId={props.postId} refreshFunction={props.refreshFunction} />
-                  <ReplyComment CommentLists={props.CommentLists} postId={props.postId} parentCommentId={comment._id} refreshFunction={props.refreshFunction} />
-                </React.Fragment>
+                    <React.Fragment>
+                        <SingleComment comment={comment} postId={props.postId} refreshFunction={props.refreshFunction} />
+                    </React.Fragment>
                 )
             ))}
 
@@ -57,9 +57,9 @@ function Comments(props){
                 <br />
                 <Button style={{ width: '20%', height: '52px' }} onClick={onSubmit}>Submit</Button>
             </form>
-		</div>
-	)
-}
 
+        </div>
+    )
+}
 
 export default Comments
