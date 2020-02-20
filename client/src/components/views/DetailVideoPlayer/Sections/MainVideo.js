@@ -6,6 +6,10 @@ import axios from 'axios'
 import Comments from './Comments'
 
 function MainVideo(props){
+    console.log(props.video)
+    console.log(props.video._id)
+    console.log(props.video.title)
+    console.log(props.video['_id'])
 	const {_id, title, filePath, description, writer, views,createdAt} = props.video
     // const videoId = props.match.params.videoId
 
@@ -14,9 +18,11 @@ function MainVideo(props){
     useEffect(()=>{
 
     const videoData = {
-        videoId: _id
+        videoId: props.video._id
     }
 
+    console.log(props.video._id)
+    console.log(videoData)
     axios.post('/api/comment/getComments', videoData)
     .then(response => {
         if (response.data.success) {
